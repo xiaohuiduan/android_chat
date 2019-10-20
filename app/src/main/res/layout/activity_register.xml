@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#582BCE9A"
+    tools:context=".page.RegisterActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/card_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="注册"
+        android:textSize="30sp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#2197db"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:background="#fff"
+                android:id="@+id/register_name"
+                android:ems="16"
+                android:hint="请输入用户名"
+                android:textColor="#EB0808"
+                android:textColorHint="#95A1AA"
+                android:textSize="16sp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:background="#fff"
+                android:id="@+id/register_pwd"
+                android:ems="16"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:textColor="#EB0808"
+                android:textColorHint="#95A1AA"
+                android:textSize="16sp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:background="#fff"
+                android:ems="16"
+                android:id="@+id/re_pwd"
+                android:hint="请再次输入密码"
+                android:inputType="textPassword"
+                android:textColor="#EB0808"
+                android:textColorHint="#95A1AA"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="#E91E63"
+        android:text="注册" />
+</RelativeLayout>
