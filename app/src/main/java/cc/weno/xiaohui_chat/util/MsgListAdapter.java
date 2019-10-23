@@ -81,7 +81,7 @@ public class MsgListAdapter extends RecyclerView.Adapter<MsgListAdapter.ViewHold
             return;
         }
 
-        // BU是自己发送的消息
+//        // 如果不是自己发送的消息
         if (!selfName.equals(msgDao.getName())) {
 
             holder.left.setVisibility(View.GONE);
