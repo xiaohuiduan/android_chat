@@ -135,10 +135,10 @@ if __name__ == "__main__":
 ![](git_img/code.png)
 
 bug问题：
-![git_img/1.png]
+![](git_img/1.png)
 
 在下面的图中，321发送的你好消失
-![git_img/2.png]
+![](git_img/2.png)
 
 
 
