@@ -5,14 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+import com.github.kevinsawicki.http.HttpRequest;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
 import cc.weno.xiaohui_chat.R;
+import cc.weno.xiaohui_chat.dao.ResponseDao;
 import cc.weno.xiaohui_chat.mapper.MyDatabaseHelper;
+import cc.weno.xiaohui_chat.net.AsyncRequest;
+import cc.weno.xiaohui_chat.net.ProcessInterface;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -20,7 +33,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText pwdEdit;
     private EditText rePwdEdit;
     private Button  registerButton;
-
 
 
     @Override
@@ -58,8 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
         }else if(!pwd.equals(rePwd)){
             Toast.makeText(this,"两次密码不一致，请重新输入",Toast.LENGTH_SHORT).show();
         }else{
-            long result = mapperService(name,pwd);
-            if (result != -1){
+            boolean result = mapperService(name,pwd);
+            if (result){
                 Toast.makeText(this,"注册成功",Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(this,"注册失败",Toast.LENGTH_SHORT).show();
@@ -69,27 +81,46 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     /**
-     * 将注册的信息放入数据库
+     * 进行注册
      * @param name 账号名
      * @param pwd 密码
      * @return 返回插入后的id
      */
-    private long mapperService(String name, String pwd){
-        SQLiteOpenHelper sqLiteOpenHelper = new MyDatabaseHelper(RegisterActivity.this,"xiaohui_chat",null,1);
-        SQLiteDatabase sqLiteDatabase = sqLiteOpenHelper.getWritableDatabase();
+    private boolean mapperService(String name, String pwd) {
 
-        ContentValues value = new ContentValues();
-        value.put("name",name);
-        value.put("pwd",pwd);
+        AsyncTask asyncTask = new AsyncRequest().execute(new RegisterActivity.SendRegister(name, pwd));
+        try {
+            boolean success = (boolean) asyncTask.get();
+            return success;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-        // 参数1：要操作的表名称
-        // 参数2：SQl不允许一个空列，若ContentValues是空，那么这一列被明确的指明为NULL值
-        // 参数3：ContentValues对象
-        long re = sqLiteDatabase.insert("user",null,value);
 
-        sqLiteDatabase.close();
 
-        return re;
+    class SendRegister implements ProcessInterface {
+
+        private String name;
+        private String pwd;
+
+        public SendRegister(String name, String pwd) {
+            this.name = name;
+            this.pwd = pwd;
+        }
+
+        @Override
+        public Object call() {
+            Map map = new HashMap(2);
+            map.put("name", name);
+            map.put("pwd", pwd);
+            HttpRequest request = new HttpRequest("http://192.168.1.113:8080/register", "POST").form(map);
+            ResponseDao responseDao = JSONObject.parseObject(request.body(), ResponseDao.class);
+            return responseDao.getSuccess();
+        }
     }
 
 }

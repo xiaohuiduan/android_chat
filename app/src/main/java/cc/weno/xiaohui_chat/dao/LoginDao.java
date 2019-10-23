@@ -1,16 +1,15 @@
 package cc.weno.xiaohui_chat.dao;
 
-
 import lombok.Data;
 
 /**
- * 消息的msgDao
+ * 登录和注册的dao
  * @author xiaohui
  */
 @Data
-public class MsgDao {
+public class LoginDao {
 
     private String name;
-    private String dataTime;
-    private String msgContent;
+    private String pwd;
+
 }

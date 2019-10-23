@@ -71,7 +71,7 @@
         />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/save_user_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_button"

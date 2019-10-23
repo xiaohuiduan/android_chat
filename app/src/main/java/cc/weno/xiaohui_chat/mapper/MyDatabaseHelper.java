@@ -20,7 +20,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
      * 创建表的sql句
      */
     private String CreateTableSql = "create table user(id integer primary key autoincrement," +
-            "name varchar(16),pwd varchar(64))";
+            "name varchar(16),pwd varchar(64), UNIQUE (name,pwd))";
 
     /**
      * 数据库的构造函数
